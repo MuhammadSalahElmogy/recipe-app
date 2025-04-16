@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
 
 router.post('/logout',authMiddleware, (req, res) => {
   const authHeader = req.headers.authorization;
-
+  
   if (authHeader) {
     const token = authHeader.split(' ')[1];
     blacklistedTokens.add(token); // أضف التوكن إلى القائمة السوداء
