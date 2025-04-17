@@ -5,7 +5,7 @@ const Chef = require("../models/Chef");
 // ✅ جلب شيف واحد حسب الـ ID
 router.get("/:id", async (req, res) => {
   try {
-    const chef = await Chef.find({id:req.params.id});
+    const chef = await Chef.findById({ id: req.params.id });
     if (!chef) return res.status(404).json({ error: "Chef not found" });
     res.json(chef);
   } catch (error) {
@@ -23,8 +23,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-
 // ✅ إضافة شيف جديد
 router.post("/", async (req, res) => {
   try {
@@ -39,10 +37,13 @@ router.post("/", async (req, res) => {
 // ✅ تعديل بيانات شيف
 router.put("/:id", async (req, res) => {
   try {
-    const updatedChef = await Chef.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedChef = await Chef.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!updatedChef) return res.status(404).json({ error: "Chef not found" });
     res.json(updatedChef);
   } catch (error) {
+    console.log("Error updating chef:", error);
     res.status(400).json({ error: "Invalid data" });
   }
 });

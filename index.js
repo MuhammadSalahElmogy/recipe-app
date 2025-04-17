@@ -19,7 +19,7 @@ app.use(morgan("dev"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/categories", require("./routes/categoryRoutes"));
-app.use("/api/chefs", require("./routes/chefRoutes"));
+app.use("/api/chefs", require("./routes/chefRoutes.js"));
 app.use("/api/recipes", require("./routes/recipeRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const ChefSchema = new mongoose.Schema({
-  id:Number,
+  id: Number,
   name: String,
   email: { type: String, unique: true },
   password: String,
@@ -12,6 +12,7 @@ const ChefSchema = new mongoose.Schema({
   description: String,
   rate: Number,
   reviews: Array,
+  bio: String,
 });
 
 module.exports = mongoose.model("Chef", ChefSchema);

@@ -19,17 +19,17 @@ router.get("/:id?", async (req, res) => {
   // If 'id' is present in the request params, fetch a specific category by ID
   if (req.params.id) {
     try {
-      const category = await Category.find({id:req.params.id});
-      
+      const category = await Category.find({ id: req.params.id });
+
       if (!category) {
         return res.status(404).json({ error: "Category not found" });
       }
-  
+
       res.json(category);
     } catch (error) {
       res.status(400).json({ error: "Invalid ID format" });
     }
-  } 
+  }
   // Otherwise, fetch all categories
   else {
     try {
@@ -42,20 +42,17 @@ router.get("/:id?", async (req, res) => {
 });
 
 // جلب جميع التصنيفات
- router.get("/", async (req, res) => {
-    const categories = await Category.find();
-    res.json(categories);
- }); 
-
- 
-
-
-
+router.get("/", async (req, res) => {
+  const categories = await Category.find();
+  res.json(categories);
+});
 
 // تعديل تصنيف
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put("/update/:id", authMiddleware, async (req, res) => {
   try {
-    const category = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     res.json(category);
   } catch (error) {
     res.status(400).json({ error: error.message });
