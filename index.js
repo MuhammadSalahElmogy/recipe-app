@@ -22,7 +22,7 @@ app.use("/api/categories", require("./routes/categoryRoutes"));
 app.use("/api/chefs", require("./routes/chefRoutes.js"));
 app.use("/api/recipes", require("./routes/recipeRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/orders", require("./routes/orderRouts"));
+app.use("/api/orders", require("./routes/orderRoutes.js"));
 app.use("/api/cart", require("./routes/cartRoutes"));
 
 // Connect to MongoDB
