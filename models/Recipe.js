@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const RecipeSchema = new mongoose.Schema({
-  id:Number,
   name: String,
   category: String,
   image: String,
@@ -13,5 +13,7 @@ const RecipeSchema = new mongoose.Schema({
   video_link: String,
   ingredients: Array,
 });
+
+RecipeSchema.plugin(AutoIncrement, { inc_field: "id" }); // هنا يتم تفعيل الزيادة التلقائية للـ id
 
 module.exports = mongoose.model("Recipe", RecipeSchema);

@@ -5,8 +5,73 @@ const Recipe = require("../models/Recipe");
 const authMiddleware = require("../middleware/authMiddleware");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
+// router.post("/", authMiddleware, async (req, res) => {
+//   const { recipes, totalPrice, paymentMethod, address, phone, notes } = req.body;
+
+//   try {
+//     if (paymentMethod === "cash") {
+//       const order = new Order({
+//         userId: req.user.id,
+//         recipes,
+//         totalPrice,
+//         paymentMethod,
+//         address,
+//         phone,
+//         notes,
+//       });
+//       await order.save();
+//       return res.status(201).json(order);
+//     }
+
+//     if (paymentMethod === "card") {
+//       // 1. Get recipe IDs
+//       const recipeIds = recipes.map(r => r.recipeId);
+
+//       // 2. Fetch recipe details from DB
+//       const recipeDocs = await Recipe.find({ _id: { $in: recipeIds } });
+
+//       // 3. Build line_items with recipe names
+//       const line_items = recipes.map(item => {
+//         const recipe = recipeDocs.find(r => r._id.toString() === item.recipeId);
+//         return {
+//           price_data: {
+//             currency: "EGP",
+//             product_data: {
+//               name: recipe ? recipe.name : "Recipe",
+//             },
+//             unit_amount: (recipe?.offerPrice || recipe?.price || 0) * 100,
+//           },
+//           quantity: item.quantity,
+//         };
+//       });
+
+//       const session = await stripe.checkout.sessions.create({
+//         payment_method_types: ["card"],
+//         line_items,
+//         mode: "payment",
+//         success_url: "http://localhost:3000/payment-success",
+//         cancel_url: "http://localhost:3000/payment-cancelled",
+//         metadata: {
+//           userId: req.user.id,
+//           address,
+//           phone,
+//           notes,
+//         },
+//       });
+
+//       return res.status(200).json({ url: session.url });
+//     }
+
+//     res.status(400).json({ error: "Invalid payment method" });
+//   } catch (error) {
+//     console.error("Stripe error:", error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
 router.post("/", authMiddleware, async (req, res) => {
-  const { recipes, totalPrice, paymentMethod, address, phone, notes } = req.body;
+  const { recipes, totalPrice, paymentMethod, address, phone, notes } =
+    req.body;
 
   try {
     if (paymentMethod === "cash") {
@@ -25,14 +90,16 @@ router.post("/", authMiddleware, async (req, res) => {
 
     if (paymentMethod === "card") {
       // 1. Get recipe IDs
-      const recipeIds = recipes.map(r => r.recipeId);
+      const recipeIds = recipes.map((r) => r.recipeId);
 
       // 2. Fetch recipe details from DB
       const recipeDocs = await Recipe.find({ _id: { $in: recipeIds } });
 
       // 3. Build line_items with recipe names
-      const line_items = recipes.map(item => {
-        const recipe = recipeDocs.find(r => r._id.toString() === item.recipeId);
+      const line_items = recipes.map((item) => {
+        const recipe = recipeDocs.find(
+          (r) => r._id.toString() === item.recipeId
+        );
         return {
           price_data: {
             currency: "EGP",

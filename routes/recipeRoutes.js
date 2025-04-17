@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 // ✅ جلب وصفة واحدة حسب الـ ID
 router.get("/:id", async (req, res) => {
   try {
-    const recipe = await Recipe.find({id:req.params.id}).populate(
+    const recipe = await Recipe.find({ id: req.params.id }).populate(
       "chef_id",
       "name"
     );
@@ -26,8 +26,17 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
 // ✅ إضافة وصفة جديدة
+// router.post("/", async (req, res) => {
+//   try {
+//     const newRecipe = new Recipe(req.body);
+//     await newRecipe.save();
+//     res.status(201).json(newRecipe);
+//   } catch (error) {
+//     res.status(400).json({ error: "Invalid data" });
+//   }
+// });
+
 router.post("/", async (req, res) => {
   try {
     const newRecipe = new Recipe(req.body);
